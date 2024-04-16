@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+import shlex
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -23,6 +24,7 @@ class HBNBCommand(cmd.Cmd):
                'State': State, 'City': City, 'Amenity': Amenity,
                'Review': Review
               }
+    
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
              'number_rooms': int, 'number_bathrooms': int,
@@ -121,6 +123,44 @@ class HBNBCommand(cmd.Cmd):
         elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        
+        # Split the arguments by spaces (ignoring whitespace within quotes)
+        arg = shlex.split(args)
+
+        if len(arg) < 2:
+            print("Usage: create <Class name> <param1> [<param2> ...]")
+            return
+
+        # Extract parameters
+        params = arg[1:]
+        param_dict = {}
+        for param in params:
+            try:
+            # Check for key-value pairs separated by '='
+                if '=' in param:
+                    key, value = param.split('=')
+                    # Handle string values (with escaped quotes and spaces)
+                    if value.startswith('"') and value.endswith('"'):
+                    # Unescape quotes and replace underscores with spaces
+                        value = value[1:-1].replace('\\"', '"').replace('_', ' ')
+                    # Try parsing float or integer
+                    elif '.' in value:
+                        try:
+                            value = float(value)
+                        except ValueError:
+                            pass  # Skip invalid floats
+                    else:
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            pass  # Skip invalid integers
+                    param_dict[key] = value
+                else:
+                    # Skip parameters without '=' sign
+                    pass
+            except ValueError:
+                print(f"Invalid parameter format: {param}")
+
         new_instance = HBNBCommand.classes[args]()
         storage.save()
         print(new_instance.id)
@@ -129,7 +169,8 @@ class HBNBCommand(cmd.Cmd):
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
-        print("[Usage]: create <className>\n")
+        print("[Usage]: create <Class name>\
+               <param 1> <param 2> <param 3>...\n")
 
     def do_show(self, args):
         """ Method to show an individual object """
