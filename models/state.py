@@ -1,27 +1,31 @@
-#!/usr/bin/python3
-""" State Module for HBNB project """
-from models.base_model import BaseModel
-from models.base_model import Base
-from sqlalchemy import String, Column
-from sqlalchemy.orm import relationship
-from models.engine.file_storage import FileStorage
-import os
+from sqlalchemy import Column, String
+from sqlalchemy.orm import backref, relationship
+
+from models.base_model import BaseModel, Base
+from 
 
 
 class State(BaseModel, Base):
-    __tablename__ = "states"
-    name = Column("name", String(128), nullable=False)
+    """
+    Representation of a state in the database.
+    """
 
-    if 'DBStorage' == os.getenv("HBNB_TYPE_STORAGE"):
-        cities = relationship("City", backref="state", cascade="all, delete-orphan", single_use=True)
+    __tablename__ = 'states'  # Class attribute for table name
 
-    # Getter for FileStorage
-    else:
-        @property
-        def cities(self):
-            """
-            Returns a list of City instances linked to the current State.
-            """
-            from models.city import City  # Import City to avoid circular imports
-            all_cities = FileStorage.all()  # Assuming all_objects is available in FileStorage
-            return [city for city in all_cities if city.__class__ == City and city.state_id == State.id]
+    name = Column(String(128), nullable=False)  # String column for state name (max 128 chars)
+
+    # Relationship with City model (cascade="all, delete-orphan"): for DBStorage
+    cities = relationship(
+        "City", backref=backref("state", cascade="all, delete-orphan"), cascade="all, delete-orphan"
+    )
+
+    # Getter for cities (for FileStorage)
+    @property
+    def cities(self):
+        """
+        Returns a list of City instances with state_id equal to the current State.id.
+        """
+        if hasattr(self, "_cities"):
+            return self._cities
+        self._cities = []
+        return self._cities
