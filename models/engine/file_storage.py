@@ -2,11 +2,11 @@
 """This module defines a class to manage file storage for hbnb clone"""
 import json
 
-
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'
     __objects = {}
+
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
@@ -61,13 +61,3 @@ class FileStorage:
             if key in self.__objects:
                 del self.__objects[key]
                 self.save()
-
-    @property
-    def cities(self):
-        """
-        Returns a list of City instances with state_id equal to the current State.id.
-        """
-        if hasattr(self, "_cities"):
-            return self._cities
-        self._cities = []
-        return self._cities
