@@ -2,7 +2,6 @@ from sqlalchemy import Column, String
 from sqlalchemy.orm import backref, relationship
 
 from models.base_model import BaseModel, Base
-from 
 
 
 class State(BaseModel, Base):
