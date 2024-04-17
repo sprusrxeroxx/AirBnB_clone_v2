@@ -33,7 +33,7 @@ class DBStorage():
             self.__drop_all_tables()
 
         # Create all database tables
-        Base.Metadata.create_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
 
         # Create a session to the database
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
