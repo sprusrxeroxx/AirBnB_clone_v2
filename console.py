@@ -131,6 +131,41 @@ class HBNBCommand(cmd.Cmd):
             print("Usage: create <Class name> <param1> [<param2> ...]")
             return
 
+        # Extract parameters
+        params = arg[1:]
+        param_dict = {}
+        for param in params:
+            try:
+            # Check for key-value pairs separated by '='
+                if '=' in param:
+                    key, value = param.split('=')
+                    # Handle string values (with escaped quotes and spaces)
+                    if value.startswith('"') and value.endswith('"'):
+                    # Unescape quotes and replace underscores with spaces
+                        value = value[1:-1].replace('\\"', '"').replace('_', ' ')
+                    # Try parsing float or integer
+                    elif '.' in value:
+                        try:
+                            value = float(value)
+                        except ValueError:
+                            pass  # Skip invalid floats
+                    else:
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            pass  # Skip invalid integers
+                    param_dict[key] = value
+                else:
+                    # Skip parameters without '=' sign
+                    pass
+            except ValueError:
+                print(f"Invalid parameter format: {param}")
+
+        new_instance = HBNBCommand.classes[args]()
+        storage.save()
+        print(new_instance.id)
+        storage.save()
+
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
