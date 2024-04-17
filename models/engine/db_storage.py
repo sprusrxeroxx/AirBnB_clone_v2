@@ -5,13 +5,17 @@
 import os
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
 Base = declarative_base()
 
 class DBStorage():
     __engine = None
     __session = None
+        # Relationship with City model (cascade="all, delete-orphan"): for DBStorage
+    _cities = relationship(
+        "City", backref=backref("state", cascade="all, delete-orphan"), cascade="all, delete-orphan"
+    )
 
     """""Initialization of MySql databse interaction"""
 

@@ -61,3 +61,13 @@ class FileStorage:
             if key in self.__objects:
                 del self.__objects[key]
                 self.save()
+
+    @property
+    def cities(self):
+        """
+        Returns a list of City instances with state_id equal to the current State.id.
+        """
+        if hasattr(self, "_cities"):
+            return self._cities
+        self._cities = []
+        return self._cities
