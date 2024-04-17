@@ -24,4 +24,4 @@ class State(BaseModel, Base):
             """
             from models.city import City  # Import City to avoid circular imports
             all_cities = self@FileStorage.all()  # Assuming all_objects is available in FileStorage
-            return [city for city in all_cities if city.__class__ == City and City.state_id == self.id]
+            return [city for city in all_cities if city.__class__ == City and city@City.state_id == State.id]
