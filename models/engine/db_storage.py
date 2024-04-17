@@ -2,11 +2,11 @@
 """""This module contains the engine for the 
     database of the hbnb app"""
 import os
+
 from sqlalchemy import create_engine, MetaData
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 import models
-from models.base_model import Base
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place

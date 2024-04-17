@@ -11,6 +11,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 import shlex
+from sqlalchemy.orm import relationship, backref
 
 
 class HBNBCommand(cmd.Cmd):
