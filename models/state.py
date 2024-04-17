@@ -2,7 +2,8 @@
 """ State Module for HBNB project """
 from models.base_model import BaseModel
 from models.base_model import Base
-from sqlalchemy import String, Column, ForeignKey, relationship
+from sqlalchemy import String, Column
+from sqlalchemy.orm import relationship
 from models.engine.file_storage import FileStorage
 import os
 
@@ -23,4 +24,4 @@ class State(BaseModel, Base):
             """
             from models.city import City  # Import City to avoid circular imports
             all_cities = self@FileStorage.all()  # Assuming all_objects is available in FileStorage
-            return [city for city in all_cities if city.__class__ == City and city.state_id == self.id]
+            return [city for city in all_cities if city.__class__ == City and City.state_id == self.id]
