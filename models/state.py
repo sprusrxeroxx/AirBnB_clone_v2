@@ -12,7 +12,7 @@ class State(BaseModel, Base):
     __tablename__ = "states"
     name = Column("name", String(128), nullable=False)
 
-    if 'DBStorage' in os.getenv("HBNB_TYPE_STORAGE"):
+    if 'DBStorage' == os.getenv("HBNB_TYPE_STORAGE"):
         cities = relationship("City", backref="state", cascade="all, delete-orphan", single_use=True)
 
     # Getter for FileStorage
