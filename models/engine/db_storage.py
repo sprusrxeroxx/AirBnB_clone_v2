@@ -3,7 +3,7 @@
     database of the hbnb app"""
 
 import os
-from sqlalchemy import create_engine, MetaData, sessionmaker
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 
