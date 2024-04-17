@@ -37,14 +37,6 @@ class DBStorage():
         # Condition for test environment
         if env_var == "test":
             Base.metadata.drop_all(self.__engine)
-    
-    def __drop_all_tables(self):
-        """
-        Drops all tables from the database.
-        """
-        meta = MetaData()
-        meta.reflect(self.__engine)
-        meta.drop_all(self.__engine)
 
     def all(self, cls=None):
         """"Queries all objects from the database based on the provided class or all objects.
