@@ -17,8 +17,7 @@ class State(BaseModel, Base):
 
     # Relationship with City model (cascade="all, delete-orphan"): for DBStorage
     cities = relationship(
-        "City", backref=backref("state", cascade="all, delete-orphan")
-    )
+        "City", backref="state", cascade="all, delete-orphan")
 
     # Getter for cities (for FileStorage)
     from os import getenv
