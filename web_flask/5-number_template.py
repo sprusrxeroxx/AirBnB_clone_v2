@@ -2,8 +2,7 @@
 """Start a Flask web application with a route that displays an HTML page only if n is an integer"""
 from flask import Flask, render_template
 
-app = Flask(__name__)
-
+app = Flask(__name__, template_folder='templates')
 
 @app.route('/', strict_slashes=False)
 def hello_hbnb():
