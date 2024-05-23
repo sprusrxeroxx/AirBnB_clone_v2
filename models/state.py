@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from os import getenv
 from models.base_model import BaseModel, Base
 from models.city import City
