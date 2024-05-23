@@ -3,9 +3,8 @@
     database of the hbnb app"""
 import os
 
-from sqlalchemy import create_engine, MetaData
-from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
-import models
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import BaseModel, Base
 from models.amenity import Amenity
 from models.city import City
@@ -72,11 +71,12 @@ class DBStorage():
         Args:
             obj : The object to add to database
         """
-        return self.__session.add(obj)
+        if obj:
+            return self.__session.add(obj)
     
     def save(self): 
         """Commits changes made to database"""
-        return self.__session.commit()
+        self.__session.commit()
     
     def delete(self, obj=None):
         """Deletes object from the current database session 
@@ -90,7 +90,7 @@ class DBStorage():
     def reload(self):
         """Reloads the current database session"""
          # Create all database tables
-        self.__session = Base.metadata.create_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
 
         # Create a session to the database
         lab = sessionmaker(bind=self.__engine, expire_on_commit=False)
